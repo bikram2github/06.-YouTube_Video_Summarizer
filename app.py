@@ -60,7 +60,7 @@ url= st.text_input("Enter YouTube Video URL",label_visibility="collapsed", place
 @st.cache_data(show_spinner=False)
 def summarize_hindi(text):
     if len(text) > 200:
-        return False
+        return None
     else:
         try:
             llm = get_groq_model(api_key)
@@ -74,7 +74,7 @@ def summarize_hindi(text):
 @st.cache_data(show_spinner=False)
 def summarize_english(text):
     if len(text) > 200:
-        return False
+        return None
     else:
         try:
             llm = get_groq_model(api_key)
@@ -153,7 +153,7 @@ if st.button("Summarize"):
                     st.link_button("Direct Video Link", url)
 
 
-                    if summary is False:
+                    if summary is None:
                         st.subheader("Video Summary")
                         st.error("Input text too long for summarization.")
 
