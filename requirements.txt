@@ -1,0 +1,9 @@
+streamlit
+langchain
+langchain-groq
+langchain-core
+langchain-community
+youtube-transcript-api
+requests
+tiktoken
+pydantic
