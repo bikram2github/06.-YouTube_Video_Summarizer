@@ -155,7 +155,7 @@ if st.button("Summarize"):
 
                     if summary is None:
                         st.subheader("Video Summary")
-                        st.error("Input text too long for summarization.")
+                        st.error("Youtube video too long for summarization.")
 
                     else:
                         st.subheader("Video Summary")
