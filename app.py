@@ -19,7 +19,7 @@ st.subheader("Summarize YouTube videos using Groq LLM")
 
 
 
-api_key = st.secrets["GROQ_API_KEY"]
+api_key = st.secrets.get("GROQ_API_KEY")
 
 @st.cache_resource
 def get_groq_model(api_key: str):
