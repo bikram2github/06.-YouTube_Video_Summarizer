@@ -125,7 +125,7 @@ def summarize(text):
             summary = summarize_hindi(text)
             return summary
     except Exception as e:
-        return st.error(f"Please enter a valid YouTube Video URL. {e}")
+        return st.error(f"An error occurred: {e}")
 
 
 
@@ -141,7 +141,7 @@ if st.button("Summarize"):
             yt_text = extract(url)
 
             if yt_text is None:
-                st.error("Please enter a valid YouTube Video URL.")
+                st.error("An error occurred while fetching the transcript. Please ensure the video has subtitles available.")
 
             else:
                 with st.spinner("Generating summary..."):
