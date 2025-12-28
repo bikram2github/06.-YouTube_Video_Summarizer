@@ -54,29 +54,35 @@ Preserve the original meaning and tone.
 
 
 
-url= st.text_input("Enter YouTube Video URL",label_visibility="collapsed")
+url= st.text_input("Enter YouTube Video URL",label_visibility="collapsed", placeholder="https://www.youtube.com/watch?v=_Kj275Q4sy4")
 
 
 @st.cache_data(show_spinner=False)
 def summarize_hindi(text):
-    try:
-        llm = get_groq_model(api_key)
-        chain = prompt_hindi | llm | parser | prompt | llm | parser
-        response = chain.invoke({"text": text})
-        return response
-    except Exception as e:
-        return None
+    if len(text) > 200:
+        return False
+    else:
+        try:
+            llm = get_groq_model(api_key)
+            chain = prompt_hindi | llm | parser | prompt | llm | parser
+            response = chain.invoke({"text": text})
+            return response
+        except Exception as e:
+            return None
 
 
 @st.cache_data(show_spinner=False)
 def summarize_english(text):
-    try:
-        llm = get_groq_model(api_key)
-        chain = prompt | llm | parser
-        response = chain.invoke({"text": text})
-        return response
-    except Exception as e:
-        return None
+    if len(text) > 200:
+        return False
+    else:
+        try:
+            llm = get_groq_model(api_key)
+            chain = prompt | llm | parser
+            response = chain.invoke({"text": text})
+            return response
+        except Exception as e:
+            return None
 
 
 @st.cache_data(show_spinner=False)
@@ -140,9 +146,17 @@ if st.button("Summarize"):
             else:
                 with st.spinner("Generating summary..."):
                     summary = summarize(yt_text)
-                    if summary:
-                        st.subheader("Video Thumbnail")
-                        video_id = url.split("=")[1]
-                        st.image(f"https://img.youtube.com/vi/{video_id}/hqdefault.jpg", width="content")
+                    st.subheader("Video Thumbnail")
+                    video_id = url.split("=")[1]
+                    st.image(f"https://img.youtube.com/vi/{video_id}/hqdefault.jpg", width="content")
+                    st.markdown("### Video Link")
+                    st.link_button("Direct Video Link", url)
+
+
+                    if summary is False:
+                        st.subheader("Video Summary")
+                        st.error("Input text too long for summarization.")
+
+                    else:
                         st.subheader("Video Summary")
                         st.success(summary)
